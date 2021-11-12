@@ -84,6 +84,12 @@ il.message{
 il.private_message{
     background-color: pink;
 }
+il .from, il .to{
+    font-weight: bold;
+}
+il .time{
+    color: grey;
+}
 
 
 
