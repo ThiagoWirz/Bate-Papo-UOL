@@ -11,11 +11,11 @@
 <body>
     <div class="bonus-login hidden">
         <img src="assets/images/logo.png">
-        <input type="text" placeholder="Digite seu nome">
-        <button class="login">Entrar</button>
+        <input class = "nome" type="text" placeholder="Digite seu nome">
+        <button class="login" onclick = "conectar()">Entrar</button>
     </div>
-<div class="bonus-layout">
-<aside class="bonus-side hidden">
+<div class="bonus-layout hidden">
+<aside class="bonus-side ">
     <p>Escolha um contato para enviar mensagem:</p>
     <div class="contacts">
         <div class="person">
@@ -44,15 +44,16 @@
         <img src="assets/images/logo.png">
         <ion-icon name="people"></ion-icon>
     </header>
-    <main>       
-    </main>
-    <div class = "mensages">
+    <ul>
+    </ul>
+    <div class = "msg-input">
         <input type="text" placeholder="Escreva aqui...">
         <ion-icon name="paper-plane-outline"></ion-icon>
     </div>
 </div>
 
     <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="assets/scripts/script.js"></script>
 </body>
 </html>
