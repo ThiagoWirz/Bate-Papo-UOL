@@ -79,8 +79,36 @@ function tratarErro(erro) {
         
          }
       }
-      const ultimaMensagem = document.querySelector('ul').lastChild
+      const ultimaMensagem = document.querySelector('ul').lastChild;
       ultimaMensagem.scrollIntoView();
    } 
+
+
+function botaoEnviar(){
+   const mensagemInput = document.querySelector(".msg-input input");
+   let mensagem = {from: nome.name,
+   to:"",   
+	text: mensagemInput.value,
+	type: ""}
+
+   if(mensagem.to === ""){
+      mensagem.to = "Todos";
+   }
+   if(mensagem.type === ""){
+      mensagem.type = "message";
+   }
+
+   const promessa = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", mensagem);
+   promessa.then(mensagemEnviada);
+   promessa.catch(tratarErro);
+   }
+
+   function mensagemEnviada(){
+      console.log("Foi");
+      const promessa = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
+      promessa.then(buscarMensagens);
+      promessa.catch(tratarErro);
+   }
+   
 
    
