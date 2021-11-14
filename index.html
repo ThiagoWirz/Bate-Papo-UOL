@@ -6,34 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/styles/reset.css">
     <link rel="stylesheet" href="assets/styles/style.css">
-    <title>Document</title>
+    <title>Bate-Papo UOL</title>
 </head>
 <body>
     <div class="bonus-login">
         <img src="assets/images/logo.png">
-        <input class = "nome" type="text" placeholder="Digite seu nome">
-        <button class="login" onclick = "conectar()">Entrar</button>
+        <input class = "nome" data-identifier="enter-name" type="text" placeholder="Digite seu nome" onkeypress="enterKeyLogin()">
+        <button class="login" data-identifier="start" onclick = "conectar()">Entrar</button>
     </div>
 <div class="bonus-layout hidden">
-<aside class="bonus-side ">
+<div onclick="sideBar()" class="bonus-background">
+</div>
+<aside class="bonus-side">
     <p>Escolha um contato para enviar mensagem:</p>
     <div class="contacts">
-        <div class="person">
-        <ion-icon name="people"></ion-icon> Todos
-        <ion-icon class = "checkmark hidden" name="checkmark"></ion-icon>
+        <div onclick="selecionarPessoa(this)" class="person">
+        <ion-icon name="people"></ion-icon> <span>Todos</span>
+        <ion-icon class = "checkmark" name="checkmark"></ion-icon>
     </div>
-    
-    
     </div>
     <p>Escolha a visibilidade:</p>
     <div class="pm">
-        <div class="opcao">
-        <ion-icon name="lock-open"></ion-icon> Público
-        <ion-icon class = "checkmark hidden" name="checkmark"></ion-icon>
+        <div onclick = "selecionarPm(this)" data-identifier="visibility" class="opcao">
+        <ion-icon name="lock-open"></ion-icon> <span>Público</span>
+        <ion-icon class = "checkmark" name="checkmark"></ion-icon>
     </div>
-    <div class="opcao">
-        <ion-icon name="lock-closed"></ion-icon> Reservadamente
-        <ion-icon class = "checkmark hidden" name="checkmark"></ion-icon>
+    <div onclick = "selecionarPm(this)" data-identifier="visibility" class="opcao">
+        <ion-icon name="lock-closed"></ion-icon> <span>Reservadamente</span>
+        <ion-icon class = "checkmark" name="checkmark"></ion-icon>
     </div>
     </div>
 </aside>
@@ -42,20 +42,20 @@
     <div class="layout hidden">
     <header>
         <img src="assets/images/logo.png">
-        <ion-icon name="people"></ion-icon>
+        <ion-icon onclick="sideBar()" name="people"></ion-icon>
     </header>
     <ul>
     </ul>
     <div class = "msg-input">
         <div class="msg-box">
-        <input type="text" placeholder="Escreva aqui...">
-        <ion-icon onclick="botaoEnviar()" name="paper-plane-outline"></ion-icon>
+        <input type="text" placeholder="Escreva aqui..."  onkeypress="enterKey()">
+        <ion-icon onclick="botaoEnviar()" data-identifier="send-message" name="paper-plane-outline"></ion-icon>
         </div>
-        <!--<div class="teste"> ola</div>-->
+        <div class="info">Enviando para todos (público)</div>
     </div>
 </div>
 
-    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    <script src="https://unpkg.com/ionicons@5.5.2/dist/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="assets/scripts/script.js"></script>
 </body>

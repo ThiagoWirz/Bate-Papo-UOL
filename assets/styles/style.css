@@ -2,7 +2,6 @@
     box-sizing: border-box;
 }
 body{
-    background-color: #E5E5E5;
     height: 100vh;
 }
 
@@ -34,6 +33,8 @@ body{
 .bonus-login button{
     width: 109px;
     height: 45px;
+    border: none;
+    border-radius: 9px;
 }
 
 header{
@@ -63,6 +64,7 @@ header ion-icon{
 ul{
     overflow-y:scroll ;
     padding: 106px 0 80px 0 ;
+    background-color: #E5E5E5
 }
 
 il{
@@ -74,7 +76,7 @@ il{
 }
 
 il.status{
-    background-color: gray;
+    background-color: #DCDCDC;
 }
 
 il.message{
@@ -110,14 +112,23 @@ il .time{
 .msg-input ion-icon{
     width: 26px;
     height: 26px;
-    margin-right: 27px;
+    position: absolute;
+    right: 27px;
+    top: 27px;
+    
 }
 
 .msg-input input{
     border: none;
     margin-left: 17px;
     width: 80%;
+    height: 25px;
+}
 
+.msg-input input::placeholder{
+    font-weight: bold;
+    font-style: italic;
+    color: black;
 }
 .msg-box{
     display: flex;
@@ -125,8 +136,10 @@ il .time{
     justify-content: space-between;
 }
 
-.teste{
+.info{
     margin-left: 17px;
+    font-style: italic;
+    color: gray;
 }
 
 
@@ -134,18 +147,22 @@ il .time{
 .bonus-layout{
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
     display: flex;
-    flex-direction: row-reverse;
+    z-index: 5;
+    position: fixed;
+}
+.bonus-background{
+    width: 35%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
 }
 
 aside{
     display: flex;
     flex-direction: column;
-    width: 259px;
+    width: 65%;
     height: 100%;
     background-color: #FFFFFF;
-    justify-content: center;
     text-align: center;
 }
 
@@ -179,6 +196,7 @@ aside p{
     position: absolute;
     right: 0;
     margin-right: 15px;
+    display: none;
 }
 
 .opcao ion-icon{
@@ -191,10 +209,17 @@ aside p{
     position: absolute;
     position: absolute;
     right: 0;
+    display: none;
 }
 
 
+.checkmark.pm-selected{
+    display: initial;
+}
 
+.checkmark.person-selected{
+    display: initial;
+}
 
 
 .hidden{

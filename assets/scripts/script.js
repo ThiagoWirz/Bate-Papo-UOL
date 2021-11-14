@@ -1,4 +1,12 @@
 let nome = { name: ""}
+let mensagem = {from: "",
+   to:"",   
+	text: "",
+	type: "",
+   time: ""
+}
+
+
 
 function conectar(){
  const nameInput = document.querySelector(".nome").value;
@@ -14,13 +22,15 @@ function conectar(){
  promessa.catch(tratarErro);
 }
 
-function entrouNoChat(resposta){
+function entrouNoChat(){
    const telaDeLogin = document.querySelector(".bonus-login");
    const telaPrincipal = document.querySelector(".layout");
    telaDeLogin.classList.add("hidden");
    telaPrincipal.classList.remove("hidden");
+   carregarMensagens();
    setInterval(manterConexão, 5000);
    setInterval(carregarMensagens, 3000);
+   setInterval(buscarParticipantes, 10000);
 }
 
 function carregarMensagens(){
@@ -31,13 +41,14 @@ const promessa = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages")
 
 
 function tratarErro(erro) {
+   alert("Nome inválido.")
+   window.location.reload();
    console.log(erro.response);
  }
 
 
  function manterConexão(){
    axios.post("https://mock-api.driven.com.br/api/v4/uol/status", nome);
-   
  }
 
  
@@ -45,6 +56,7 @@ function tratarErro(erro) {
  function buscarMensagens(resposta){
     const mensagens = resposta.data
     const ulMensagens = document.querySelector("ul");
+      ulMensagens.innerHTML = "";
       for(let i = 0; i<mensagens.length; i++){
 
          if(mensagens[i].type === "status"){
@@ -52,7 +64,7 @@ function tratarErro(erro) {
             const texto = mensagens[i].text;
             const hora = mensagens[i].time; 
               
-            ulMensagens.innerHTML += `<il class = "status">
+            ulMensagens.innerHTML += `<il class = "status" data-identifier="message">
             <p><span class = "time"> (${hora}) </span> <span class = "from"> ${remetente} </span> <span class = "text">${texto}</span></p>
         </il>`
          }
@@ -62,7 +74,7 @@ function tratarErro(erro) {
             const hora = mensagens[i].time;
             const destinatario = mensagens[i].to;
          
-         ulMensagens.innerHTML += `<il class = "message">
+         ulMensagens.innerHTML += `<il class = "message" data-identifier="message">
            <p><span class = "time"> (${hora}) </span> <span class = "from"> ${remetente} </span> para <span class = "to"> ${destinatario}:</span> <span class = "text">${texto}</span></p>
         </il>`
          }
@@ -72,7 +84,7 @@ function tratarErro(erro) {
             const hora = mensagens[i].time;
             const destinatario = mensagens[i].to;
             if(nome.name === destinatario || nome.name === remetente){
-               ulMensagens.innerHTML += `<il class = "private_message">
+               ulMensagens.innerHTML += `<il class = "private_message" data-identifier="message">
                <p><span class = "time"> (${hora}) </span> <span class = "from"> ${remetente} </span> reservadamente para <span class = "to"> ${destinatario}:</span> <span class = "text">${texto}</span></p>
                </il>`
             }
@@ -86,10 +98,9 @@ function tratarErro(erro) {
 
 function botaoEnviar(){
    const mensagemInput = document.querySelector(".msg-input input");
-   let mensagem = {from: nome.name,
-   to:"",   
-	text: mensagemInput.value,
-	type: ""}
+   mensagem.from = nome.name;
+   mensagem.text = mensagemInput.value;
+   mensagemInput.value = "";
 
    if(mensagem.to === ""){
       mensagem.to = "Todos";
@@ -100,7 +111,7 @@ function botaoEnviar(){
 
    const promessa = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", mensagem);
    promessa.then(mensagemEnviada);
-   promessa.catch(tratarErro);
+   promessa.catch(tratarErroEnvio);
    }
 
    function mensagemEnviada(){
@@ -110,5 +121,90 @@ function botaoEnviar(){
       promessa.catch(tratarErro);
    }
    
+function sideBar(){
+   const telaDeParticipantes = document.querySelector(".bonus-layout");
+   telaDeParticipantes.classList.toggle("hidden");
+}
 
+function selecionarPessoa(pessoa){
+   let info = document.querySelector(".info");
+   const verificar = document.querySelector(".person-selected");
+   const check = pessoa.querySelector(".checkmark");
+   const selecionado = pessoa.querySelector("span").innerHTML;
+   if(verificar !== null){
+      verificar.classList.remove("person-selected");
+   }
+   check.classList.add("person-selected");
+   mensagem.to = selecionado;
+   info.innerHTML = `Enviando para ${mensagem.to} (Público)`;
+   if(mensagem.type === "message"){
+      info.innerHTML = `Enviando para ${mensagem.to} (Público)`;
+   }
+   if(mensagem.type === "private_message"){
+      info.innerHTML = `Enviando para ${mensagem.to} (Reservadamente)`;
+   }
    
+}
+
+function selecionarPm(opcao){
+   let info = document.querySelector(".info");
+   const verificar = document.querySelector(".pm-selected");
+   const check = opcao.querySelector(".checkmark");
+   const selecionado = opcao.querySelector("span").innerHTML;
+   if(verificar !== null){
+   verificar.classList.remove("pm-selected");
+   }
+   check.classList.add("pm-selected"); 
+   info.innerHTML = `Enviando para ${mensagem.to} (${selecionado})`;
+   if(selecionado === "Público"){
+      mensagem.type = "message";
+   }
+   if(selecionado === "Reservadamente"){
+      mensagem.type = "private_message";
+   }
+   }
+
+   function buscarParticipantes(){
+      const promessa = axios.get("https://mock-api.driven.com.br/api/v4/uol/participants");
+      promessa.then(atualizarLista)
+      promessa.catch(tratarErro);
+   }
+
+   function atualizarLista(resposta){
+      const participantes = resposta.data;
+      const lista = document.querySelector(".contacts")
+      lista.innerHTML = `<div onclick="selecionarPessoa(this)" class="person">
+      <ion-icon name="people"></ion-icon> <span>Todos</span>
+      <ion-icon class = "checkmark" name="checkmark"></ion-icon>` 
+      for(let i = 0; i < participantes.length; i++ ){
+         lista.innerHTML += `<div onclick="selecionarPessoa(this) data-identifier="participant" " class="person">
+         <ion-icon name="person-circle"></ion-icon> <span>${participantes[i].name}</span>
+         <ion-icon class = "checkmark" name="checkmark"></ion-icon>
+     </div>`
+
+      }
+   }
+   
+function tratarErroEnvio(){
+         alert ("Desconectado do servidor");
+         window.location.reload();
+      }
+  
+function enterKey(){
+      const keyEnter = event.keyCode;
+
+    if (keyEnter === 13) {
+      botaoEnviar();
+
+    }
+}
+
+function enterKeyLogin(){
+   const keyEnter = event.keyCode;
+
+ if (keyEnter === 13) {
+   conectar();
+
+ }
+}
+
