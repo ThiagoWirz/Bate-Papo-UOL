@@ -5,8 +5,7 @@ let mensagem = {from: "",
 	type: "",
    time: ""
 }
-
-
+let ultimaMensagem = document.querySelector('ul').lastChild;
 
 function conectar(){
  const nameInput = document.querySelector(".nome").value;
@@ -28,6 +27,7 @@ function entrouNoChat(){
    telaDeLogin.classList.add("hidden");
    telaPrincipal.classList.remove("hidden");
    carregarMensagens();
+   buscarParticipantes();
    setInterval(manterConexão, 5000);
    setInterval(carregarMensagens, 3000);
    setInterval(buscarParticipantes, 10000);
@@ -43,7 +43,6 @@ const promessa = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages")
 function tratarErro(erro) {
    alert("Nome inválido.")
    window.location.reload();
-   console.log(erro.response);
  }
 
 
@@ -91,8 +90,11 @@ function tratarErro(erro) {
         
          }
       }
-      const ultimaMensagem = document.querySelector('ul').lastChild;
-      ultimaMensagem.scrollIntoView();
+      const novaUltimaMensagem = document.querySelector('ul').lastChild;
+         if(novaUltimaMensagem.innerHTML !== ultimaMensagem.innerHTML){
+         ultimaMensagem = document.querySelector('ul').lastChild;
+         ultimaMensagem.scrollIntoView();
+      }
    } 
 
 
@@ -110,17 +112,10 @@ function botaoEnviar(){
    }
 
    const promessa = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", mensagem);
-   promessa.then(mensagemEnviada);
+   promessa.then(carregarMensagens);
    promessa.catch(tratarErroEnvio);
    }
 
-   function mensagemEnviada(){
-      console.log("Foi");
-      const promessa = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
-      promessa.then(buscarMensagens);
-      promessa.catch(tratarErro);
-   }
-   
 function sideBar(){
    const telaDeParticipantes = document.querySelector(".bonus-layout");
    telaDeParticipantes.classList.toggle("hidden");
@@ -177,7 +172,7 @@ function selecionarPm(opcao){
       <ion-icon name="people"></ion-icon> <span>Todos</span>
       <ion-icon class = "checkmark" name="checkmark"></ion-icon>` 
       for(let i = 0; i < participantes.length; i++ ){
-         lista.innerHTML += `<div onclick="selecionarPessoa(this) data-identifier="participant" " class="person">
+         lista.innerHTML += `<div onclick="selecionarPessoa(this)" data-identifier="participant"  class="person">
          <ion-icon name="person-circle"></ion-icon> <span>${participantes[i].name}</span>
          <ion-icon class = "checkmark" name="checkmark"></ion-icon>
      </div>`
@@ -190,21 +185,18 @@ function tratarErroEnvio(){
          window.location.reload();
       }
   
-function enterKey(){
+function enterKey(input){
       const keyEnter = event.keyCode;
-
-    if (keyEnter === 13) {
+   if(input.classList.contains("nome")){
+      if (keyEnter === 13) {
+      conectar();
+         }
+      }
+      else{
+   if (keyEnter === 13) {
       botaoEnviar();
-
     }
+   }
 }
 
-function enterKeyLogin(){
-   const keyEnter = event.keyCode;
-
- if (keyEnter === 13) {
-   conectar();
-
- }
-}
 

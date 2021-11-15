@@ -11,7 +11,7 @@
 <body>
     <div class="bonus-login">
         <img src="assets/images/logo.png">
-        <input class = "nome" data-identifier="enter-name" type="text" placeholder="Digite seu nome" onkeypress="enterKeyLogin()">
+        <input class = "nome" data-identifier="enter-name" type="text" placeholder="Digite seu nome" onkeypress="enterKey(this)">
         <button class="login" data-identifier="start" onclick = "conectar()">Entrar</button>
     </div>
 <div class="bonus-layout hidden">
@@ -46,13 +46,13 @@
     </header>
     <ul>
     </ul>
-    <div class = "msg-input">
+    <footer class = "msg-input">
         <div class="msg-box">
-        <input type="text" placeholder="Escreva aqui..."  onkeypress="enterKey()">
+        <input type="text" placeholder="Escreva aqui..."  onkeypress="enterKey(this)">
         <ion-icon onclick="botaoEnviar()" data-identifier="send-message" name="paper-plane-outline"></ion-icon>
         </div>
-        <div class="info">Enviando para todos (público)</div>
-    </div>
+        <span class="info">Enviando para todos (público)</span>
+    </footer>
 </div>
 
     <script src="https://unpkg.com/ionicons@5.5.2/dist/ionicons.js"></script>
