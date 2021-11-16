@@ -14,7 +14,7 @@ function conectar(){
     name: nameInput
  };
  telaDeLogin.innerHTML = `<img src="assets/images/logo.png"></img>
- <img src="assets/images/loading.gif"></img>`
+ <img src="assets/images/miajuda.gif"></img>`
 
  promessa = axios.post("https://mock-api.driven.com.br/api/v4/uol/participants",nome );
  promessa.then(entrouNoChat);
@@ -63,9 +63,9 @@ function tratarErro(erro) {
             const texto = mensagens[i].text;
             const hora = mensagens[i].time; 
               
-            ulMensagens.innerHTML += `<il class = "status" data-identifier="message">
+            ulMensagens.innerHTML += `<li class = "status" data-identifier="message">
             <p><span class = "time"> (${hora}) </span> <span class = "from"> ${remetente} </span> <span class = "text">${texto}</span></p>
-        </il>`
+        </li>`
          }
          if(mensagens[i].type === "message"){
             const remetente = mensagens[i].from;
@@ -73,9 +73,9 @@ function tratarErro(erro) {
             const hora = mensagens[i].time;
             const destinatario = mensagens[i].to;
          
-         ulMensagens.innerHTML += `<il class = "message" data-identifier="message">
+         ulMensagens.innerHTML += `<li class = "message" data-identifier="message">
            <p><span class = "time"> (${hora}) </span> <span class = "from"> ${remetente} </span> para <span class = "to"> ${destinatario}:</span> <span class = "text">${texto}</span></p>
-        </il>`
+        </li>`
          }
          if(mensagens[i].type === "private_message"){
             const remetente = mensagens[i].from;
@@ -83,9 +83,9 @@ function tratarErro(erro) {
             const hora = mensagens[i].time;
             const destinatario = mensagens[i].to;
             if(nome.name === destinatario || nome.name === remetente){
-               ulMensagens.innerHTML += `<il class = "private_message" data-identifier="message">
+               ulMensagens.innerHTML += `<li class = "private_message" data-identifier="message">
                <p><span class = "time"> (${hora}) </span> <span class = "from"> ${remetente} </span> reservadamente para <span class = "to"> ${destinatario}:</span> <span class = "text">${texto}</span></p>
-               </il>`
+               </li>`
             }
         
          }
@@ -122,7 +122,7 @@ function sideBar(){
 }
 
 function selecionarPessoa(pessoa){
-   let info = document.querySelector(".info");
+   const info = document.querySelector(".info");
    const verificar = document.querySelector(".person-selected");
    const check = pessoa.querySelector(".checkmark");
    const selecionado = pessoa.querySelector("span").innerHTML;
@@ -142,7 +142,7 @@ function selecionarPessoa(pessoa){
 }
 
 function selecionarPm(opcao){
-   let info = document.querySelector(".info");
+   const info = document.querySelector(".info");
    const verificar = document.querySelector(".pm-selected");
    const check = opcao.querySelector(".checkmark");
    const selecionado = opcao.querySelector("span").innerHTML;
@@ -168,15 +168,30 @@ function selecionarPm(opcao){
    function atualizarLista(resposta){
       const participantes = resposta.data;
       const lista = document.querySelector(".contacts")
+      if(mensagem.to !== "Todos"){
       lista.innerHTML = `<div onclick="selecionarPessoa(this)" class="person">
       <ion-icon name="people"></ion-icon> <span>Todos</span>
-      <ion-icon class = "checkmark" name="checkmark"></ion-icon>` 
+      <ion-icon class = "checkmark" name="checkmark"></ion-icon>`}
+      else{
+         lista.innerHTML =  `<div onclick="selecionarPessoa(this)" class="person">
+      <ion-icon name="people"></ion-icon> <span>Todos</span>
+      <ion-icon class = "checkmark person-selected" name="checkmark"></ion-icon>`
+      }
       for(let i = 0; i < participantes.length; i++ ){
+         if(participantes[i].name !== nome.name){
+            if(mensagem.to !== participantes[i].name){
          lista.innerHTML += `<div onclick="selecionarPessoa(this)" data-identifier="participant"  class="person">
          <ion-icon name="person-circle"></ion-icon> <span>${participantes[i].name}</span>
          <ion-icon class = "checkmark" name="checkmark"></ion-icon>
-     </div>`
+     </div>`}
+     else{
+        lista.innerHTML += `<div onclick="selecionarPessoa(this)" data-identifier="participant"  class="person">
+     <ion-icon name="person-circle"></ion-icon> <span>${participantes[i].name}</span>
+     <ion-icon class = "checkmark person-selected" name="checkmark"></ion-icon>
+ </div>`
 
+     }
+         }
       }
    }
    

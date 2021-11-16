@@ -3,6 +3,7 @@
 }
 body{
     height: 100vh;
+    font-family: 'Roboto', sans-serif;
 }
 
 .bonus-login{
@@ -62,36 +63,37 @@ header ion-icon{
 }
 
 ul{
-    overflow-y:scroll ;
+    overflow-y:scroll;
     padding: 106px 0 80px 0 ;
     background-color: #E5E5E5;
     height: 100%;
 }
 
-il{
+li{
     display: flex;
     align-items: center;
     padding: 20px 8px;
     gap: 5px;
     margin-bottom: 4px;
+    border-radius: 2px;
 }
 
-il.status{
+li.status{
     background-color: #DCDCDC;
 }
 
-il.message{
+li.message{
     background-color: white;
 }
 
-il.private_message{
+li.private_message{
     background-color: pink;
 }
-il .from, il .to{
+li .from, li .to{
     font-weight: bold;
 }
-il .time{
-    color: grey;
+li .time{
+    color: gray;
 }
 
 .msg-input{
@@ -99,7 +101,7 @@ il .time{
     height: 80px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);
     justify-content: center;
     background-color: #FFFFFF;
     position: fixed;
@@ -158,6 +160,7 @@ aside{
     height: 100%;
     background-color: #FFFFFF;
     text-align: center;
+    overflow-y:scroll;
 }
 
 aside p{
@@ -176,7 +179,7 @@ aside p{
 
 .person, .opcao {
     display: flex;
-    font-size: 16px;
+    font-size: 13px;
     position: relative;
     margin-bottom: 20px;
 }
@@ -191,8 +194,11 @@ aside p{
     right: 15px;
     display: none;
 }
-.bonus-side ion-icon, .bonus-side span{
-    font-size: 20px;
+.bonus-side span{
+    font-size: 18px;
+}
+.bonus-side ion-icon{
+    font-size: 22px;
 }
 
 
