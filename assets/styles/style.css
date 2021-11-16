@@ -67,6 +67,7 @@ ul{
     padding: 106px 0 80px 0 ;
     background-color: #E5E5E5;
     height: 100%;
+    width: 100vw;
 }
 
 li{
@@ -76,6 +77,8 @@ li{
     gap: 5px;
     margin-bottom: 4px;
     border-radius: 2px;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 li.status{
@@ -186,6 +189,12 @@ aside p{
 
 .person ion-icon, .opcao ion-icon{
     margin-right: 5px;
+}
+.contacts span, .opcao span{
+    text-align: left;
+    width: 75%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .checkmark{
