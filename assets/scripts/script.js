@@ -82,7 +82,7 @@ function tratarErro(erro) {
             const texto = mensagens[i].text;
             const hora = mensagens[i].time;
             const destinatario = mensagens[i].to;
-            if(nome.name === destinatario || nome.name === remetente){
+            if(nome.name === destinatario || nome.name === remetente || mensagens[i].to === "Todos"){
                ulMensagens.innerHTML += `<li class = "private_message" data-identifier="message">
                <p><span class = "time"> (${hora}) </span> <span class = "from"> ${remetente} </span> reservadamente para <span class = "to"> ${destinatario}:</span> <span class = "text">${texto}</span></p>
                </li>`
